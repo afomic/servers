@@ -5,4 +5,5 @@ package com.afomic.servers.data;
  */
 
 public class Constants {
+    public static final String TAG="serves";
 }
