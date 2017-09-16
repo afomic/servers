@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
-    tools:context="com.afomic.servers.kitchen.KitchenActivity">
+    tools:context="com.afomic.servers.kitchen.activities.KitchenActivity">
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

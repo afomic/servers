@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.afomic.servers.kitchen.activities.OrderDetailActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_order_title"
+            android:text="TABLE 1 Orders"
+            android:textSize="18sp"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/rv_order_list"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_gravity="right|bottom"
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        app:fabSize="normal"
+        android:src="@drawable/ic_done"
+        android:id="@+id/fab_table_served"
+        android:layout_height="wrap_content" />
+
+</android.support.design.widget.CoordinatorLayout>
