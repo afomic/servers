@@ -1,5 +1,8 @@
 package com.afomic.servers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +10,7 @@ import java.util.ArrayList;
  * this is the model class for Table
  */
 
-public class Table {
+public class Table implements Parcelable {
     public static final int NEW=0;
     public static final int ORDER_TAKEN=1;
     public static final int SERVED=1;
@@ -29,6 +32,24 @@ public class Table {
         mName=name;
         mWaiterName=null;
     }
+
+    protected Table(Parcel in) {
+        mName = in.readString();
+        mWaiterName = in.readString();
+        mStatus = in.readInt();
+    }
+
+    public static final Creator<Table> CREATOR = new Creator<Table>() {
+        @Override
+        public Table createFromParcel(Parcel in) {
+            return new Table(in);
+        }
+
+        @Override
+        public Table[] newArray(int size) {
+            return new Table[size];
+        }
+    };
 
     public ArrayList<Order> getTableOrders() {
         return mTableOrders;
@@ -60,5 +81,17 @@ public class Table {
 
     public void setStatus(int status) {
         mStatus = status;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeString(mWaiterName);
+        dest.writeInt(mStatus);
     }
 }
