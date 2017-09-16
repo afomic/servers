@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.afomic.servers.R;
 import com.afomic.servers.adapter.OrderListAdapter;
 import com.afomic.servers.data.Constants;
-import com.afomic.servers.kitchen.fragment.ConfirmOrderServed;
+import com.afomic.servers.kitchen.fragment.ConfirmTableServed;
 import com.afomic.servers.model.Order;
 import com.afomic.servers.model.Table;
 
@@ -39,7 +39,7 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
         mOrderServed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConfirmOrderServed dialog=ConfirmOrderServed.getInstance(mTable);
+                ConfirmTableServed dialog= ConfirmTableServed.getInstance(mTable);
                 dialog.show(getSupportFragmentManager(),null);
             }
         });

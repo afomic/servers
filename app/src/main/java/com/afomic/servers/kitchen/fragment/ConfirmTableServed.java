@@ -16,12 +16,12 @@ import com.afomic.servers.model.Table;
  *
  */
 
-public class ConfirmOrderServed extends DialogFragment {
+public class ConfirmTableServed extends DialogFragment {
     Table mTable;
-    public static ConfirmOrderServed getInstance(Table table){
+    public static ConfirmTableServed getInstance(Table table){
         Bundle args=new Bundle();
         args.putParcelable(Constants.BUNDLE_TABLE,table);
-        ConfirmOrderServed dialog=new ConfirmOrderServed();
+        ConfirmTableServed dialog=new ConfirmTableServed();
         dialog.setArguments(args);
         return dialog;
     }
