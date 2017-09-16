@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import com.afomic.servers.R;
@@ -42,5 +44,22 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
             mTables.add(mTable);
         }
         return mTables;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.kitchen_main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_create_event:
+                break;
+            case R.id.menu_end_event:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
