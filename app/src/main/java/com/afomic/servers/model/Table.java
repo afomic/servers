@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Table {
     public static final int NEW=0;
-    public static final int ORDER_TAKEN=1;M
+    public static final int ORDER_TAKEN=1;
     public static final int SERVED=1;
     private ArrayList<Order> mTableOrders;
     private String mName;
@@ -27,7 +27,38 @@ public class Table {
         mStatus=NEW;
         mTableOrders=new ArrayList<>();
         mName=name;
-        mWaiterName="";
+        mWaiterName=null;
     }
 
+    public ArrayList<Order> getTableOrders() {
+        return mTableOrders;
+    }
+
+    public void setTableOrders(ArrayList<Order> tableOrders) {
+        mTableOrders = tableOrders;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public String getWaiterName() {
+        return mWaiterName;
+    }
+
+    public void setWaiterName(String waiterName) {
+        mWaiterName = waiterName;
+    }
+
+    public int getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(int status) {
+        mStatus = status;
+    }
 }
