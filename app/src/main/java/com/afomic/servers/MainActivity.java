@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.afomic.servers.kitchen.activities.KitchenActivity;
+import com.afomic.servers.waiters.activities.WaiterActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
         waiterLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent mIntent=new Intent(MainActivity.this, WaiterActivity.class);
+                startActivity(mIntent);
             }
         });
     }
 }
+

@@ -14,21 +14,16 @@ public class Table implements Parcelable {
     public static final int NEW=0;
     public static final int ORDER_TAKEN=1;
     public static final int SERVED=1;
-    private ArrayList<Order> mTableOrders;
     private String mName;
     private String mWaiterName;
     private int mStatus;
+    private String key;
 
-    public Table(String name,ArrayList<Order> tableOrders,String waiterName,int status){
-        mName=name;
-        mTableOrders=tableOrders;
-        mWaiterName=waiterName;
-        mStatus=status;
-
+    public Table(){
     }
-    public Table(String name){
+    public Table(String key,String name){
+        this.key=key;
         mStatus=NEW;
-        mTableOrders=new ArrayList<>();
         mName=name;
         mWaiterName=null;
     }
@@ -51,12 +46,12 @@ public class Table implements Parcelable {
         }
     };
 
-    public ArrayList<Order> getTableOrders() {
-        return mTableOrders;
+    public String getKey() {
+        return key;
     }
 
-    public void setTableOrders(ArrayList<Order> tableOrders) {
-        mTableOrders = tableOrders;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -93,5 +88,6 @@ public class Table implements Parcelable {
         dest.writeString(mName);
         dest.writeString(mWaiterName);
         dest.writeInt(mStatus);
+        dest.writeString(key);
     }
 }

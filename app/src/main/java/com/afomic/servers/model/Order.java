@@ -11,20 +11,18 @@ public class Order {
     private String mName;
     private int mQuantity;
     private String mUnitName;
+    private String mKey;
     public static final int NEW=0;
     public static final int SERVED=1;
 
-    public Order(String name,int quantity,String unitName,int status){
-        mStatus=status;
-        mName=name;
-        mUnitName=unitName;
-        mQuantity=quantity;
+    public Order(){
     }
 
-    public Order(String name,int quantity,String unitName){
+    public Order(String key,String name,int quantity,String unitName){
         mName=name;
         mUnitName=unitName;
         mQuantity=quantity;
+        mKey=key;
         mStatus=NEW;
     }
 
