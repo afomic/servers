@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Table {
     public static final int NEW=0;
-    public static final int ORDER_TAKEN=1;
+    public static final int ORDER_TAKEN=1;M
     public static final int SERVED=1;
     private ArrayList<Order> mTableOrders;
     private String mName;
