@@ -1,8 +1,8 @@
 package com.afomic.servers.kitchen.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -11,7 +11,8 @@ import android.widget.RelativeLayout;
 
 import com.afomic.servers.R;
 import com.afomic.servers.adapter.TableListAdapter;
-import com.afomic.servers.model.Order;
+import com.afomic.servers.data.Constants;
+import com.afomic.servers.kitchen.fragment.CreateEventDialog;
 import com.afomic.servers.model.Table;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -76,7 +77,9 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
 
     @Override
     public void onClick(Table table) {
-
+        Intent intent=new Intent(KitchenActivity.this,OrderDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_TABLE,table);
+        startActivity(intent);
     }
 
     @Override
@@ -89,6 +92,8 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_create_event:
+                CreateEventDialog dialog= CreateEventDialog.getInstance();
+                dialog.show(getSupportFragmentManager(),null);
                 break;
             case R.id.menu_end_event:
                 break;
