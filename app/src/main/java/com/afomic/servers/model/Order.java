@@ -83,6 +83,13 @@ public class Order implements Parcelable {
         return String.format(Locale.ENGLISH,"%d %s",mQuantity,mUnitName);
     }
 
+    public String getKey() {
+        return mKey;
+    }
+
+    public void setKey(String key) {
+        mKey = key;
+    }
 
     @Override
     public String toString() {

@@ -92,7 +92,7 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
                                 for (Order order : tempMap.values()) {
 
                                     String tempKey = mDatabaseReference.push().getKey();
-
+                                    order.setKey(tempKey);
                                     mDatabaseReference.child(tempKey).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
