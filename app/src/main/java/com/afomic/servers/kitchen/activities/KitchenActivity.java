@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.afomic.servers.R;
 import com.afomic.servers.adapter.TableListAdapter;
 import com.afomic.servers.data.Constants;
+import com.afomic.servers.kitchen.fragment.CancelEventDialog;
 import com.afomic.servers.kitchen.fragment.CreateEventDialog;
 import com.afomic.servers.model.Table;
 import com.google.firebase.database.ChildEventListener;
@@ -101,7 +102,8 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
                 dialog.show(getSupportFragmentManager(),null);
                 break;
             case R.id.menu_end_event:
-
+                CancelEventDialog mDialog=CancelEventDialog.newInstance();
+                mDialog.show(getSupportFragmentManager(),null);
                 break;
         }
         return super.onOptionsItemSelected(item);
