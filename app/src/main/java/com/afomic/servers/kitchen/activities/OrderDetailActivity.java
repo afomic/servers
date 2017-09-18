@@ -42,6 +42,7 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
 
         //proposed solution
         //check you were trying to cast all children of a particular table to Order.
+        //instead i entered a particular order here
         mDatabaseReference= FirebaseDatabase.getInstance()
                 .getReference("events")
                 .child("tables")
