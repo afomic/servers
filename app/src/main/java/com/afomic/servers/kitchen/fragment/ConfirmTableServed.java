@@ -51,4 +51,5 @@ public class ConfirmTableServed extends DialogFragment {
         });
         return mBuilder.create();
     }
+
 }

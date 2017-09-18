@@ -48,17 +48,20 @@ public class WaiterActivity extends AppCompatActivity  implements TableListAdapt
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Table mTable=dataSnapshot.getValue(Table.class);
-                mTables.add(mTable);
-                mAdapter.notifyDataSetChanged();
+                if (mTable.getStatus() != Table.ORDER_TAKEN) {
+                    mTables.add(mTable);
+                    mAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+
 
             }
 
@@ -69,6 +72,7 @@ public class WaiterActivity extends AppCompatActivity  implements TableListAdapt
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
 
             }
         });

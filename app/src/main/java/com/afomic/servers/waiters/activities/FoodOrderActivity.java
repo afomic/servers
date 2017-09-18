@@ -70,8 +70,8 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
                 //The following if check is necessary
                 //We want to place the order immediately so that users can know for
                 //sure that they have placed order , This will also avoid duplicate orders.
-                //This as opposed to firebase logic that queues pending write operations
-                // till there is internent , but this is what we need.
+                //This is as opposed to firebase logic that queues pending write operations
+                // till there is internet , but this is what we need.
                 //
                 if (isOnline()) {
                     pDialog = new ProgressDialog(FoodOrderActivity.this);
@@ -169,6 +169,19 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
         masterMap.put(FragmentName, ordersMAp);
     }
 
+    //a method to update the status of the table object
+    public void updateTableStatus(boolean isDone) {
+        if (isDone) {
+            DatabaseReference mRef = FirebaseDatabase.
+                    getInstance()
+                    .getReference("events/tables/")
+                    .child(mTable.getKey());
+            mTable.setStatus(Table.ORDER_TAKEN);
+            mRef.setValue("status", Table.ORDER_TAKEN);
+
+        }
+
+    }
 
     class PagerAdapter extends FragmentPagerAdapter {
 
@@ -212,20 +225,6 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
             TextView tv = (TextView) tab.findViewById(R.id.custom_text);
             tv.setText(tabTitles[position]);
             return tab;
-        }
-
-    }
-
-    //a method to update the status of the table object
-    public void updateTableStatus(boolean isDone){
-        if(isDone){
-            DatabaseReference mRef = FirebaseDatabase.
-                    getInstance()
-                    .getReference("events/tables/")
-                    .child(mTable.getKey());
-            mTable.setStatus(Table.ORDER_TAKEN);
-            mRef.setValue("status",Table.ORDER_TAKEN);
-
         }
 
     }

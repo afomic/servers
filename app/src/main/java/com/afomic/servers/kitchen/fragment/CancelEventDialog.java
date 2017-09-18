@@ -15,6 +15,7 @@ import com.afomic.servers.kitchen.activities.EventSummaryActivity;
  */
 
 public class CancelEventDialog extends DialogFragment {
+
     public static CancelEventDialog newInstance(){
         CancelEventDialog mDialog=new CancelEventDialog();
         return mDialog;

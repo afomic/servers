@@ -50,7 +50,7 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
                 .child("orders");
 
         TextView orderTitle=(TextView) findViewById(R.id.tv_order_title);
-        orderTitle.setText(mTable.getName()+" Orders");
+        orderTitle.setText(mTable.getName() + " Orders");
         orderList = (RecyclerView) findViewById(R.id.rv_order_list);
 
         RecyclerView.LayoutManager mManager=new LinearLayoutManager(this);

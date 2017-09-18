@@ -37,15 +37,17 @@ public class Order implements Parcelable {
         mUnitName=unitName;
         mQuantity=quantity;
         mKey=key;
-        mStatus=NEW;
+        mStatus = NEW;
     }
 
     protected Order(Parcel in) {
+
         mStatus = in.readInt();
         mName = in.readString();
         mQuantity = in.readInt();
         mUnitName = in.readString();
         mKey = in.readString();
+
     }
 
     public int getStatus() {
@@ -96,8 +98,8 @@ public class Order implements Parcelable {
         return "Order{" +
                 "mStatus=" + mStatus +
                 ",\n mName='" + mName + '\'' +
-                ", \nmQuantity=" + mQuantity +
-                ", \nmUnitName='" + mUnitName + '\'' +
+                ",\nmQuantity=" + mQuantity +
+                ",\nmUnitName='" + mUnitName + '\'' +
                 ",\n mKey='" + mKey + '\'' +
                 '}';
     }
