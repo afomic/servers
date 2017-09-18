@@ -62,8 +62,10 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Table mTable=dataSnapshot.getValue(Table.class);
-                int num=mTables.indexOf(mTable);
-                Toast.makeText(KitchenActivity.this,"index removed"+num,Toast.LENGTH_SHORT).show();
+                int num=findIndexByKey(mTable.getKey(),mTables);
+                mTables.remove(num);
+                mAdapter.notifyItemRemoved(num);
+
             }
 
             @Override
@@ -99,8 +101,18 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
                 dialog.show(getSupportFragmentManager(),null);
                 break;
             case R.id.menu_end_event:
+
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public int findIndexByKey(String key,ArrayList<Table> tables){
+        for(int i=0;i<tables.size();i++){
+            Table mItem=tables.get(i);
+            if(mItem.getKey().equals(key)){
+                return i;
+            }
+        }
+        return -1;
     }
 }

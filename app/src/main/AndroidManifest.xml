@@ -26,6 +26,8 @@
             android:name=".waiters.activities.FoodOrderActivity"
             android:theme="@style/AppThemeNoactionBar">
         </activity>
+        <activity android:name=".kitchen.activities.EventSummaryActivity">
+        </activity>
     </application>
 
 </manifest>
