@@ -1,13 +1,15 @@
 package com.afomic.servers.waiters.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
 import com.afomic.servers.R;
 import com.afomic.servers.adapter.TableListAdapter;
+import com.afomic.servers.data.Constants;
 import com.afomic.servers.model.Table;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +24,7 @@ public class WaiterActivity extends AppCompatActivity  implements TableListAdapt
     RelativeLayout emptyViewLayout;
     DatabaseReference mDatabase;
     TableListAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class WaiterActivity extends AppCompatActivity  implements TableListAdapt
 
     @Override
     public void onClick(Table table) {
-
+        Intent intent = new Intent(WaiterActivity.this, FoodOrderActivity.class);
+        intent.putExtra(Constants.BUNDLE_TABLE, table);
+        startActivity(intent);
     }
 }
