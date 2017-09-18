@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.afomic.servers.R;
 import com.afomic.servers.adapter.TableListAdapter;
@@ -79,7 +80,7 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
     public void onClick(Table table) {
         Intent intent=new Intent(KitchenActivity.this,OrderDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_TABLE,table);
-        startActivity(intent);
+        Toast.makeText(KitchenActivity.this,"the key"+table.getKey(),Toast.LENGTH_SHORT).show();
     }
 
     @Override

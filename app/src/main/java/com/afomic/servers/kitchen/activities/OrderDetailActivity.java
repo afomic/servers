@@ -35,7 +35,8 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
         mTable =getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
 
         mDatabaseReference= FirebaseDatabase.getInstance()
-                .getReference("events/tables")
+                .getReference("events")
+                .child("tables")
                 .child(mTable.getKey());
 
         TextView orderTitle=(TextView) findViewById(R.id.tv_order_title);

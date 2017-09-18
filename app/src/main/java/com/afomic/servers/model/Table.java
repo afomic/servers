@@ -17,12 +17,12 @@ public class Table implements Parcelable {
     private String mName;
     private String mWaiterName;
     private int mStatus;
-    private String key;
+    private String mKey;
 
     public Table(){
     }
     public Table(String key,String name){
-        this.key=key;
+        this.mKey=key;
         mStatus=NEW;
         mName=name;
         mWaiterName=null;
@@ -47,11 +47,11 @@ public class Table implements Parcelable {
     };
 
     public String getKey() {
-        return key;
+        return mKey;
     }
 
     public void setKey(String key) {
-        this.key = key;
+        this.mKey = key;
     }
 
     public String getName() {
@@ -88,6 +88,6 @@ public class Table implements Parcelable {
         dest.writeString(mName);
         dest.writeString(mWaiterName);
         dest.writeInt(mStatus);
-        dest.writeString(key);
+        dest.writeString(mKey);
     }
 }
