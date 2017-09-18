@@ -1,8 +1,8 @@
 package com.afomic.servers.kitchen.activities;
 
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,7 +32,7 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         //get table from intent
-        mTable =getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
+        mTable = getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
 
         mDatabaseReference= FirebaseDatabase.getInstance()
                 .getReference("events/tables")
@@ -40,7 +40,7 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
 
         TextView orderTitle=(TextView) findViewById(R.id.tv_order_title);
         orderTitle.setText(mTable.getName()+" Orders");
-        orderList=(RecyclerView) findViewById(R.id.rv_order_list);
+        orderList = (RecyclerView) findViewById(R.id.rv_order_list);
 
         RecyclerView.LayoutManager mManager=new LinearLayoutManager(this);
         orderList.setLayoutManager(mManager);

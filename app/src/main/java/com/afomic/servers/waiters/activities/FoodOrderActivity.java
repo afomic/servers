@@ -1,15 +1,160 @@
 package com.afomic.servers.waiters.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afomic.servers.R;
+import com.afomic.servers.data.Constants;
+import com.afomic.servers.model.Order;
+import com.afomic.servers.model.Table;
+import com.afomic.servers.waiters.FoodConstants;
+import com.afomic.servers.waiters.fragment.FoodFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class FoodOrderActivity extends AppCompatActivity {
+import java.util.HashMap;
+
+public class FoodOrderActivity extends AppCompatActivity implements FoodFragment.OnFragmentInteractionListener {
+    Toolbar toolbar;
+    TabLayout mTabLayout;
+
+    /**
+     * Used Hashmap because user might want to edit their choice,
+     * since we want to discard previous order on the same key(food)
+     * Hashmap will just update the key.
+     */
+    HashMap<String, HashMap<String, Order>> masterMap = new HashMap<>();
+    FloatingActionButton fabOrder;
+    private Table mTable;
+    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_order);
+
+
+        mTable = getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("events/tables/" + mTable.getName()
+                + "/orders");
+        fabOrder = (FloatingActionButton) findViewById(R.id.fab_order);
+        fabOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d(getClass().getSimpleName(), masterMap.toString());
+                for (HashMap<String, Order> tempMap : masterMap.values()) {
+                    for (Order order : tempMap.values()) {
+                        String tempKey = mDatabaseReference.push().getKey();
+
+                        mDatabaseReference.child(tempKey).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(FoodOrderActivity.this, "Order Sucessfully placed",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+        setToolbarAndViewPager();
+
+
     }
+
+
+    public void setToolbarAndViewPager() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(mTable.getName());
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        PagerAdapter pagerAdapter =
+                new PagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(pagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(pagerAdapter.getTabView(i));
+        }
+
+
+    }
+
+    @Override
+    public void onFragmentInteraction(HashMap<String, Order> ordersMAp, String FragmentName) {
+        Log.i(getClass().getSimpleName(), ordersMAp.toString());
+        masterMap.put(FragmentName, ordersMAp);
+    }
+
+
+    class PagerAdapter extends FragmentPagerAdapter {
+
+        String tabTitles[] = new String[]{"Food", "Soup", "Drinks"};
+        Context context;
+
+        public PagerAdapter(FragmentManager fm, Context context) {
+            super(fm);
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return tabTitles.length;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            switch (position) {
+                case 0:
+                    return FoodFragment.newInstance(FoodConstants.REALFOOD);
+                case 1:
+                    return FoodFragment.newInstance(FoodConstants.SOUP);
+                case 2:
+                    return FoodFragment.newInstance(FoodConstants.DRINKS);
+
+            }
+
+            return null;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // Generate title based on item position
+            return tabTitles[position];
+        }
+
+        View getTabView(int position) {
+            View tab = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
+            TextView tv = (TextView) tab.findViewById(R.id.custom_text);
+            tv.setText(tabTitles[position]);
+            return tab;
+        }
+
+    }
+
+
+
 }

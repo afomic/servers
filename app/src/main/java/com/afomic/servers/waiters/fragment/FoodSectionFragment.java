@@ -20,9 +20,11 @@ public class FoodSectionFragment extends Fragment {
     public static FoodSectionFragment newInstance(int section, ArrayList<Order> orders){
         throw new UnsupportedOperationException();
     }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
