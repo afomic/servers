@@ -100,6 +100,7 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
                                             Toast.makeText(FoodOrderActivity.this, "Order Successfully placed",
                                                     Toast.LENGTH_SHORT).show();
 
+
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -215,6 +216,17 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
 
     }
 
+    //a method to update the status of the table object
+    public void updateTableStatus(boolean isDone){
+        if(isDone){
+            DatabaseReference mRef = FirebaseDatabase.
+                    getInstance()
+                    .getReference("events/tables/")
+                    .child(mTable.getKey());
+            mTable.setStatus(Table.ORDER_TAKEN);
+            mRef.setValue("status",Table.ORDER_TAKEN);
 
+        }
 
+    }
 }
