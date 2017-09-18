@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afomic.servers.R;
+import com.afomic.servers.adapter.FoodSpeciesAdapter;
+import com.afomic.servers.data.Constants;
 import com.afomic.servers.model.Order;
-import com.afomic.servers.waiters.FoodConstants;
-import com.afomic.servers.waiters.FoodSpeciesAdapter;
-import com.afomic.servers.waiters.OrderDialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,13 +67,13 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
         arrayList.clear();
         String[] arrays = new String[0];
         switch (type) {
-            case FoodConstants.REALFOOD:
+            case Constants.REALFOOD:
                 arrays = new String[]{"Mixed Rice", "Jolof Rice", "Amala"};
                 break;
-            case FoodConstants.DRINKS:
+            case Constants.DRINKS:
                 arrays = new String[]{"Cocacola", "pepsi", "Mongo"};
                 break;
-            case FoodConstants.SOUP:
+            case Constants.SOUP:
                 arrays = new String[]{"Egusi", "Chineese Soup", "italian Soup"};
                 break;
             default:
@@ -113,12 +112,12 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
 
     public String getUnitName(int foodType) {
         switch (foodType) {
-            case FoodConstants.REALFOOD:
+            case Constants.REALFOOD:
                 return "plates";
-            case FoodConstants.DRINKS:
+            case Constants.DRINKS:
                 return "bottles";
 
-            case FoodConstants.SOUP:
+            case Constants.SOUP:
                 return "plates";
             default:
                 return "";
@@ -140,29 +139,29 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
 
         switch (order.getName()) {
             case "Mixed Rice":
-                orderHashMap.put(FoodConstants.MAP_KEY_MIXED_RICE, order);
+                orderHashMap.put(Constants.MAP_KEY_MIXED_RICE, order);
                 break;
             case "Jolof Rice":
-                orderHashMap.put(FoodConstants.MAP_KEY_JOLOF, order);
+                orderHashMap.put(Constants.MAP_KEY_JOLOF, order);
                 break;
 
             case "Amala":
-                orderHashMap.put(FoodConstants.MAP_KEY_AMALA, order);
+                orderHashMap.put(Constants.MAP_KEY_AMALA, order);
                 break;
             case "Cocacola":
-                orderHashMap.put(FoodConstants.MAP_KEY_COCACOLA, order);
+                orderHashMap.put(Constants.MAP_KEY_COCACOLA, order);
                 break;
             case "pepsi":
-                orderHashMap.put(FoodConstants.MAP_KEY_PEPSI, order);
+                orderHashMap.put(Constants.MAP_KEY_PEPSI, order);
                 break;
             case "Egusi":
-                orderHashMap.put(FoodConstants.MAP_KEY_EGUSI, order);
+                orderHashMap.put(Constants.MAP_KEY_EGUSI, order);
                 break;
             case "Chineese Soup":
-                orderHashMap.put(FoodConstants.MAP_KEY_CHINEESESOUP, order);
+                orderHashMap.put(Constants.MAP_KEY_CHINEESESOUP, order);
                 break;
             case "italian Soup":
-                orderHashMap.put(FoodConstants.MAP_KEY_ITALIANSOUP, order);
+                orderHashMap.put(Constants.MAP_KEY_ITALIANSOUP, order);
                 break;
             default:
                 //come back and handle this

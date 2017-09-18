@@ -1,4 +1,4 @@
-package com.afomic.servers.waiters;
+package com.afomic.servers.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -38,9 +38,7 @@ public class FoodSpeciesAdapter extends RecyclerView.Adapter<FoodSpeciesAdapter.
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
- /*       FoodModel tempFood = arrayList.get(position);
-        holder.foodNameTv.setText(tempFood.name);
-        holder.quantityTv.setText(tempFood.qauntity + " " + tempFood.unitName);*/
+
         Order tempOrder = arrayList.get(position);
         holder.foodNameTv.setText(tempOrder.getName());
         holder.quantityTv.setText(tempOrder.getQuantity() + " " + tempOrder.getUnitName());

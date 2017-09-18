@@ -23,7 +23,6 @@ import com.afomic.servers.R;
 import com.afomic.servers.data.Constants;
 import com.afomic.servers.model.Order;
 import com.afomic.servers.model.Table;
-import com.afomic.servers.waiters.FoodConstants;
 import com.afomic.servers.waiters.fragment.FoodFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -159,11 +158,11 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
 
             switch (position) {
                 case 0:
-                    return FoodFragment.newInstance(FoodConstants.REALFOOD);
+                    return FoodFragment.newInstance(Constants.REALFOOD);
                 case 1:
-                    return FoodFragment.newInstance(FoodConstants.SOUP);
+                    return FoodFragment.newInstance(Constants.SOUP);
                 case 2:
-                    return FoodFragment.newInstance(FoodConstants.DRINKS);
+                    return FoodFragment.newInstance(Constants.DRINKS);
 
             }
 

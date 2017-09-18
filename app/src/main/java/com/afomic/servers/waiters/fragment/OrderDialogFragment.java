@@ -1,4 +1,4 @@
-package com.afomic.servers.waiters;
+package com.afomic.servers.waiters.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import com.afomic.servers.R;
 import com.afomic.servers.model.Order;
-import com.afomic.servers.waiters.fragment.FoodFragment;
 
 /**
  * Created by r4sh33d on 9/18/17.
- *
  */
 
 public class OrderDialogFragment extends DialogFragment {
