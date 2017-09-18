@@ -61,7 +61,9 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                Table mTable=dataSnapshot.getValue(Table.class);
+                int num=mTables.indexOf(mTable);
+                Toast.makeText(KitchenActivity.this,"index removed"+num,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -80,7 +82,7 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
     public void onClick(Table table) {
         Intent intent=new Intent(KitchenActivity.this,OrderDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_TABLE,table);
-        Toast.makeText(KitchenActivity.this,"the key"+table.getKey(),Toast.LENGTH_SHORT).show();
+        startActivity(intent);
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by rechael on 9/16/2017.
+ *
  */
 
 public class CreateEventDialog extends DialogFragment {

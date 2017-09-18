@@ -14,6 +14,7 @@ import com.afomic.servers.waiters.fragment.FoodFragment;
 
 /**
  * Created by r4sh33d on 9/18/17.
+ *
  */
 
 public class OrderDialogFragment extends DialogFragment {

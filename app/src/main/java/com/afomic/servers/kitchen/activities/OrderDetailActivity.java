@@ -60,9 +60,11 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Order mOrder=dataSnapshot.getValue(Order.class);
-                mOrders.add(mOrder);
-                mAdapter.notifyDataSetChanged();
+                if(dataSnapshot.hasChildren()){
+                    Order mOrder=dataSnapshot.getValue(Order.class);
+                    mOrders.add(mOrder);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override

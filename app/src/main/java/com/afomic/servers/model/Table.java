@@ -28,10 +28,12 @@ public class Table implements Parcelable {
         mWaiterName=null;
     }
 
+
     protected Table(Parcel in) {
         mName = in.readString();
         mWaiterName = in.readString();
         mStatus = in.readInt();
+        mKey = in.readString();
     }
 
     public static final Creator<Table> CREATOR = new Creator<Table>() {
