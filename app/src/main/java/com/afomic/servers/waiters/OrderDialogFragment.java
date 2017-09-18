@@ -8,8 +8,10 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.afomic.servers.R;
+import com.afomic.servers.model.Order;
 import com.afomic.servers.waiters.fragment.FoodFragment;
 
 /**
@@ -18,17 +20,19 @@ import com.afomic.servers.waiters.fragment.FoodFragment;
  */
 
 public class OrderDialogFragment extends DialogFragment {
-    private static final String FOOD_ITEM_UNITNAME_KEY = "unitname";
+    private static final String FOOD_ITEM_POSITION_KEY = "unitname";
     private static final String FOOD_ITEM_NAME_KEY = "fooditemname";
     private static final String FOOD_ITEM_KEY = "fooditem";
     EditText editText;
+    private TextView headerText;
+    private TextView titleText;
 
-    public static OrderDialogFragment newInstance(FoodModel foodItem) {
+    public static OrderDialogFragment newInstance(Order order, int position) {
 
         Bundle args = new Bundle();
-     /*   args.putString(FOOD_ITEM_NAME_KEY,foodItemName);
-        args.putString(FOOD_ITEM_UNITNAME_KEY ,unitname );*/
-        args.putParcelable(FOOD_ITEM_KEY, foodItem);
+     /*   args.putString(FOOD_ITEM_NAME_KEY,foodItemName);*/
+        args.putInt(FOOD_ITEM_POSITION_KEY, position);
+        args.putParcelable(FOOD_ITEM_KEY, order);
         OrderDialogFragment fragment = new OrderDialogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -39,20 +43,25 @@ public class OrderDialogFragment extends DialogFragment {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialogfrag_order, null);
         editText = (EditText) v.findViewById(R.id.edt_event_name);
+        headerText = (TextView) v.findViewById(R.id.tv_header);
+        titleText = (TextView) v.findViewById(R.id.tv_title);
 
         // Bundle args = getArguments();
         //String foodTitle = args.getString(FOOD_ITEM_NAME_KEY);
-        final FoodModel foodModel = getArguments().getParcelable(FOOD_ITEM_KEY);
-        mBuilder.setTitle(foodModel.name);
-        editText.setHint("Enter number of " + foodModel.unitName);
+        final Order order = getArguments().getParcelable(FOOD_ITEM_KEY);
+        //mBuilder.setTitle(foodModel.name);
+        titleText.setText(order.getName());
+        headerText.setText("Enter number of " + order.getUnitName());
+        editText.setHint(String.valueOf(order.getQuantity()));
 
 
         mBuilder.setPositiveButton("Order", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int quauntity = Integer.parseInt(editText.getText().toString());
-                foodModel.setQauntity(quauntity);
-                ((FoodFragment) getTargetFragment()).onDialogPositiveResult(foodModel);
+                order.setQuantity(quauntity);
+                ((FoodFragment) getTargetFragment()).onDialogPositiveResult(order,
+                        getArguments().getInt(FOOD_ITEM_POSITION_KEY));
                 dismiss();
             }
         });

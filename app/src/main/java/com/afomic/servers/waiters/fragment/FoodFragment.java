@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.afomic.servers.R;
 import com.afomic.servers.model.Order;
 import com.afomic.servers.waiters.FoodConstants;
-import com.afomic.servers.waiters.FoodModel;
 import com.afomic.servers.waiters.FoodSpeciesAdapter;
 import com.afomic.servers.waiters.OrderDialogFragment;
 
@@ -29,7 +28,8 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
     private static final String FOOD_TYPE_KEY = "foodkey";
     HashMap<String, Order> orderHashMap = new HashMap<>();
     RecyclerView recyclerView;
-    ArrayList<FoodModel> arrayList = new ArrayList<>();
+    // ArrayList<FoodModel> arrayList = new ArrayList<>();
+    ArrayList<Order> arrayList = new ArrayList<>();
     //int mFoodType;
     FoodSpeciesAdapter adapter;
     private OnFragmentInteractionListener mListener;
@@ -82,8 +82,10 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
 
         }
 
+
         for (String str : arrays) {
-            arrayList.add(new FoodModel(str, 0, getUnitName(getArguments().getInt(FOOD_TYPE_KEY))));
+            arrayList.add(new Order("N/A", str, 0, getUnitName(getArguments().getInt(FOOD_TYPE_KEY))));
+
         }
         adapter.notifyDataSetChanged();
 
@@ -126,54 +128,47 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
 
     @Override
     public void onClick(int position) {
-        OrderDialogFragment dialog = OrderDialogFragment.newInstance(arrayList.get(position));
+        OrderDialogFragment dialog = OrderDialogFragment.newInstance(arrayList.get(position), position);
         dialog.setTargetFragment(this, 123);
         dialog.show(getFragmentManager().beginTransaction(), null);
     }
 
-    public void onDialogPositiveResult(FoodModel foodModel) {
+    public void onDialogPositiveResult(Order order, int changedPosition) {
         //Todo follow design pattern for this method by creating an interface to enforce dialogFragment to call this method
         //TODO  update itemview of food species adapter to indicate quantity of food choosen
 
 
-        switch (foodModel.name) {
+        switch (order.getName()) {
             case "Mixed Rice":
-                orderHashMap.put(FoodConstants.MAP_KEY_MIXED_RICE, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_MIXED_RICE, order);
                 break;
             case "Jolof Rice":
-                orderHashMap.put(FoodConstants.MAP_KEY_JOLOF, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_JOLOF, order);
                 break;
 
             case "Amala":
-                orderHashMap.put(FoodConstants.MAP_KEY_AMALA, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_AMALA, order);
                 break;
             case "Cocacola":
-                orderHashMap.put(FoodConstants.MAP_KEY_COCACOLA, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_COCACOLA, order);
                 break;
             case "pepsi":
-                orderHashMap.put(FoodConstants.MAP_KEY_PEPSI, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_PEPSI, order);
                 break;
             case "Egusi":
-                orderHashMap.put(FoodConstants.MAP_KEY_EGUSI, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_EGUSI, order);
                 break;
             case "Chineese Soup":
-                orderHashMap.put(FoodConstants.MAP_KEY_CHINEESESOUP, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_CHINEESESOUP, order);
                 break;
             case "italian Soup":
-                orderHashMap.put(FoodConstants.MAP_KEY_ITALIANSOUP, new Order("N/A", foodModel.name,
-                        foodModel.qauntity, foodModel.unitName));
+                orderHashMap.put(FoodConstants.MAP_KEY_ITALIANSOUP, order);
                 break;
             default:
                 //come back and handle this
 
         }
+        adapter.notifyItemChanged(changedPosition);
 
         mListener.onFragmentInteraction(orderHashMap, getClass().getSimpleName() +
                 getArguments().getInt(FOOD_TYPE_KEY));

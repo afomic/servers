@@ -34,10 +34,19 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
         //get table from intent
         mTable = getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
 
+        //Your previous implementation
+  /*      mDatabaseReference= FirebaseDatabase.getInstance()
+                .getReference("events")
+                .child("tables")
+                .child(mTable.getKey());*/
+
+        //proposed solution
+        //check you were trying to cast all children of a particular table to Order.
         mDatabaseReference= FirebaseDatabase.getInstance()
                 .getReference("events")
                 .child("tables")
-                .child(mTable.getKey());
+                .child(mTable.getKey())
+                .child("orders");
 
         TextView orderTitle=(TextView) findViewById(R.id.tv_order_title);
         orderTitle.setText(mTable.getName()+" Orders");
@@ -61,7 +70,7 @@ public class OrderDetailActivity extends AppCompatActivity implements OrderListA
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if(dataSnapshot.hasChildren()){
-                    Order mOrder=dataSnapshot.getValue(Order.class);
+                    Order mOrder = dataSnapshot.getValue(Order.class);
                     mOrders.add(mOrder);
                     mAdapter.notifyDataSetChanged();
                 }

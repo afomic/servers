@@ -1,6 +1,7 @@
 package com.afomic.servers.waiters.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.afomic.servers.model.Table;
 import com.afomic.servers.waiters.FoodConstants;
 import com.afomic.servers.waiters.fragment.FoodFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -51,31 +54,58 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
 
 
         mTable = getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("events/tables/" + mTable.getName()
-                + "/orders");
+        setToolbarAndViewPager();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("events/tables/")
+                .child(mTable.getKey())
+                .child("orders");
+
         fabOrder = (FloatingActionButton) findViewById(R.id.fab_order);
         fabOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.d(getClass().getSimpleName(), masterMap.toString());
-                for (HashMap<String, Order> tempMap : masterMap.values()) {
-                    for (Order order : tempMap.values()) {
-                        String tempKey = mDatabaseReference.push().getKey();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(FoodOrderActivity.this);
 
-                        mDatabaseReference.child(tempKey).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(FoodOrderActivity.this, "Order Sucessfully placed",
-                                        Toast.LENGTH_SHORT).show();
+                builder.setMessage("Are you sure ?")
+                        .setTitle("Place Order");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.d(getClass().getSimpleName(), masterMap.toString());
+                        for (HashMap<String, Order> tempMap : masterMap.values()) {
+                            for (Order order : tempMap.values()) {
+
+                                String tempKey = mDatabaseReference.push().getKey();
+
+                                mDatabaseReference.child(tempKey).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(FoodOrderActivity.this, "Order Successfully placed",
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(FoodOrderActivity.this, "Something went wrong , Please check your " +
+                                                        "internet connection",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
+                        }
                     }
-                }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                builder.create().show();
+
+
 
             }
         });
-        setToolbarAndViewPager();
 
 
     }
@@ -90,7 +120,7 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
         PagerAdapter pagerAdapter =
                 new PagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
-
+        viewPager.setOffscreenPageLimit(5);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 

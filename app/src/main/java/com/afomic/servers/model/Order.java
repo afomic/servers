@@ -1,14 +1,28 @@
 package com.afomic.servers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Locale;
 
 /**
  * Created by rechael on 9/15/2017.
  */
 
-public class Order {
+public class Order implements Parcelable {
     public static final int NEW = 0;
     public static final int SERVED = 1;
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
     private int mStatus;
     private String mName;
     private int mQuantity;
@@ -24,6 +38,14 @@ public class Order {
         mQuantity=quantity;
         mKey=key;
         mStatus=NEW;
+    }
+
+    protected Order(Parcel in) {
+        mStatus = in.readInt();
+        mName = in.readString();
+        mQuantity = in.readInt();
+        mUnitName = in.readString();
+        mKey = in.readString();
     }
 
     public int getStatus() {
@@ -71,5 +93,19 @@ public class Order {
                 ", \nmUnitName='" + mUnitName + '\'' +
                 ",\n mKey='" + mKey + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mStatus);
+        dest.writeString(mName);
+        dest.writeInt(mQuantity);
+        dest.writeString(mUnitName);
+        dest.writeString(mKey);
     }
 }
