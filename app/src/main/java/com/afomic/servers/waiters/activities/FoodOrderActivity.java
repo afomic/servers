@@ -1,6 +1,10 @@
 package com.afomic.servers.waiters.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,9 +26,9 @@ import com.afomic.servers.R;
 import com.afomic.servers.data.Constants;
 import com.afomic.servers.model.Order;
 import com.afomic.servers.model.Table;
-import com.afomic.servers.waiters.FoodConstants;
 import com.afomic.servers.waiters.fragment.FoodFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -51,35 +56,90 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
 
 
         mTable = getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("events/tables/" + mTable.getName()
-                + "/orders");
+        setToolbarAndViewPager();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("events/tables/")
+                .child(mTable.getKey())
+                .child("orders");
+
         fabOrder = (FloatingActionButton) findViewById(R.id.fab_order);
         fabOrder.setOnClickListener(new View.OnClickListener() {
+            public ProgressDialog pDialog;
+
             @Override
             public void onClick(View v) {
+                //The following if check is necessary
+                //We want to place the order immediately so that users can know for
+                //sure that they have placed order , This will also avoid duplicate orders.
+                //This as opposed to firebase logic that queues pending write operations
+                // till there is internent , but this is what we need.
+                //
+                if (isOnline()) {
+                    pDialog = new ProgressDialog(FoodOrderActivity.this);
+                    pDialog.setMessage("Placing Order, Please wait...");
+                    pDialog.setIndeterminate(true);
+                    //pDialog.setCancelable(false);
 
-                Log.d(getClass().getSimpleName(), masterMap.toString());
-                for (HashMap<String, Order> tempMap : masterMap.values()) {
-                    for (Order order : tempMap.values()) {
-                        String tempKey = mDatabaseReference.push().getKey();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(FoodOrderActivity.this);
 
-                        mDatabaseReference.child(tempKey).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(FoodOrderActivity.this, "Order Sucessfully placed",
-                                        Toast.LENGTH_SHORT).show();
+                    builder.setMessage("Are you sure ?")
+                            .setTitle("Place Order");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            Log.d(getClass().getSimpleName(), masterMap.toString());
+                            pDialog.show();
+                            for (HashMap<String, Order> tempMap : masterMap.values()) {
+                                for (Order order : tempMap.values()) {
+
+                                    String tempKey = mDatabaseReference.push().getKey();
+
+                                    mDatabaseReference.child(tempKey).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            pDialog.dismiss();
+                                            Toast.makeText(FoodOrderActivity.this, "Order Successfully placed",
+                                                    Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            pDialog.dismiss();
+                                            Toast.makeText(FoodOrderActivity.this, "Something went wrong , Please check your " +
+                                                            "internet connection",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
-                        });
-                    }
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+                    builder.create().show();
+
+                } else {
+                    Toast.makeText(FoodOrderActivity.this, "Pls enable your" +
+                            " internet connection", Toast.LENGTH_SHORT).show();
                 }
+
+
 
             }
         });
-        setToolbarAndViewPager();
 
 
     }
 
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
     public void setToolbarAndViewPager() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -90,7 +150,7 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
         PagerAdapter pagerAdapter =
                 new PagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
-
+        viewPager.setOffscreenPageLimit(5);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -129,11 +189,11 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
 
             switch (position) {
                 case 0:
-                    return FoodFragment.newInstance(FoodConstants.REALFOOD);
+                    return FoodFragment.newInstance(Constants.REALFOOD);
                 case 1:
-                    return FoodFragment.newInstance(FoodConstants.SOUP);
+                    return FoodFragment.newInstance(Constants.SOUP);
                 case 2:
-                    return FoodFragment.newInstance(FoodConstants.DRINKS);
+                    return FoodFragment.newInstance(Constants.DRINKS);
 
             }
 

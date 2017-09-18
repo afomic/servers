@@ -1,4 +1,4 @@
-package com.afomic.servers.waiters;
+package com.afomic.servers.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afomic.servers.R;
+import com.afomic.servers.model.Order;
 
 import java.util.ArrayList;
 
@@ -18,10 +19,10 @@ import java.util.ArrayList;
 
 public class FoodSpeciesAdapter extends RecyclerView.Adapter<FoodSpeciesAdapter.MyHolder> {
     private final AdapterListener mListener;
-    ArrayList<FoodModel> arrayList;
+    ArrayList<Order> arrayList;
     Context context;
 
-    public FoodSpeciesAdapter(ArrayList<FoodModel> arrayList, Fragment context, String mFoodType) {
+    public FoodSpeciesAdapter(ArrayList<Order> arrayList, Fragment context, String mFoodType) {
         this.arrayList = arrayList;
         this.context = context.getActivity();
         mListener = (AdapterListener) context;
@@ -37,7 +38,10 @@ public class FoodSpeciesAdapter extends RecyclerView.Adapter<FoodSpeciesAdapter.
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        holder.textView.setText(arrayList.get(position).name);
+
+        Order tempOrder = arrayList.get(position);
+        holder.foodNameTv.setText(tempOrder.getName());
+        holder.quantityTv.setText(tempOrder.getQuantity() + " " + tempOrder.getUnitName());
 
     }
 
@@ -48,15 +52,17 @@ public class FoodSpeciesAdapter extends RecyclerView.Adapter<FoodSpeciesAdapter.
 
 
     public interface AdapterListener {
-        public void onClick(int position);
+        void onClick(int position);
     }
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textView;
+        TextView foodNameTv, quantityTv;
 
         public MyHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
+            foodNameTv = (TextView) itemView.findViewById(R.id.tv_food_name);
+            quantityTv = (TextView) itemView.findViewById(R.id.tv_food_quantity);
+
             itemView.setOnClickListener(this);
         }
 
