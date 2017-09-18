@@ -17,9 +17,7 @@ import java.util.ArrayList;
  */
 
 public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.ViewHolder>{
-    public interface TableItemListener{
-        public void onClick(Table table);
-    }
+
     private Context mContext;
     private TableItemListener mListener;
     private ArrayList<Table> mTables;
@@ -28,6 +26,7 @@ public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.View
         mTables=tables;
         mListener=(TableItemListener) context;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(mContext).inflate(R.layout.table_list_item,parent,false);
@@ -53,6 +52,10 @@ public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.View
         return mTables.size();
     }
 
+    public interface TableItemListener {
+        public void onClick(Table table);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView waiterNameTextView,tableNameTextView;
         public ViewHolder(View itemView) {
@@ -64,7 +67,7 @@ public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.View
 
         @Override
         public void onClick(View v) {
-            Table mItem=mTables.get(getAdapterPosition());
+            Table mItem = mTables.get(getAdapterPosition());
             mListener.onClick(mItem);
         }
     }

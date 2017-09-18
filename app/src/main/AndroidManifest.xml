@@ -22,7 +22,9 @@
         <activity android:name=".kitchen.activities.OrderDetailActivity"/>
         <activity android:name=".waiters.activities.WaiterActivity">
         </activity>
-        <activity android:name=".waiters.activities.FoodOrderActivity">
+        <activity
+            android:name=".waiters.activities.FoodOrderActivity"
+            android:theme="@style/AppThemeNoactionBar">
         </activity>
     </application>
 

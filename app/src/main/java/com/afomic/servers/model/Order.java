@@ -7,13 +7,13 @@ import java.util.Locale;
  */
 
 public class Order {
+    public static final int NEW = 0;
+    public static final int SERVED = 1;
     private int mStatus;
     private String mName;
     private int mQuantity;
     private String mUnitName;
     private String mKey;
-    public static final int NEW=0;
-    public static final int SERVED=1;
 
     public Order(){
     }
@@ -59,5 +59,17 @@ public class Order {
     }
     public String getQuantityString(){
         return String.format(Locale.ENGLISH,"%d %s",mQuantity,mUnitName);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "mStatus=" + mStatus +
+                ",\n mName='" + mName + '\'' +
+                ", \nmQuantity=" + mQuantity +
+                ", \nmUnitName='" + mUnitName + '\'' +
+                ",\n mKey='" + mKey + '\'' +
+                '}';
     }
 }
