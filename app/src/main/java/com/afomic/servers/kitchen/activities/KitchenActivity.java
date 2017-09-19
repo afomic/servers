@@ -32,16 +32,11 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kitchen);
-
         mDatabase= FirebaseDatabase.getInstance().getReference("events").child("tables");
-
         TableList=(RecyclerView) findViewById(R.id.rv_table_list);
         emptyViewLayout=(RelativeLayout) findViewById(R.id.empty_view) ;
-
         final ArrayList<Table> mTables=new ArrayList<>();
-
         mAdapter=new TableListAdapter(this,mTables);
-
         RecyclerView.LayoutManager mManager= new LinearLayoutManager(this);
         TableList.setLayoutManager(mManager);
         TableList.setAdapter(mAdapter);

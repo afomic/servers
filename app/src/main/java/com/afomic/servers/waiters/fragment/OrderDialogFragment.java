@@ -5,10 +5,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afomic.servers.R;
 import com.afomic.servers.model.Order;
@@ -49,18 +51,24 @@ public class OrderDialogFragment extends DialogFragment {
         final Order order = getArguments().getParcelable(FOOD_ITEM_KEY);
         //mBuilder.setTitle(foodModel.name);
         titleText.setText(order.getName());
-        headerText.setText("Enter number of " + order.getUnitName());
+        headerText.setText("Enter quantity of " + order.getUnitName());
         editText.setHint(String.valueOf(order.getQuantity()));
 
 
-        mBuilder.setPositiveButton("Order", new DialogInterface.OnClickListener() {
+        mBuilder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int quauntity = Integer.parseInt(editText.getText().toString());
-                order.setQuantity(quauntity);
-                ((FoodFragment) getTargetFragment()).onDialogPositiveResult(order,
-                        getArguments().getInt(FOOD_ITEM_POSITION_KEY));
-                dismiss();
+                String quantityString = editText.getText().toString();
+                if (!TextUtils.isEmpty(quantityString)) {
+                    int quauntity = Integer.parseInt(quantityString);
+                    order.setQuantity(quauntity);
+                    ((FoodFragment) getTargetFragment()).onDialogPositiveResult(order,
+                            getArguments().getInt(FOOD_ITEM_POSITION_KEY));
+                    dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "Please Enter a valid number", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

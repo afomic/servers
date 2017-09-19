@@ -68,13 +68,14 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
         String[] arrays = new String[0];
         switch (type) {
             case Constants.REALFOOD:
+
                 arrays = new String[]{"Mixed Rice", "Jolof Rice", "Amala"};
                 break;
             case Constants.DRINKS:
                 arrays = new String[]{"Cocacola", "pepsi", "Mongo"};
                 break;
             case Constants.SOUP:
-                arrays = new String[]{"Egusi", "Chineese Soup", "italian Soup"};
+                arrays = new String[]{"Egusi", "Chinese Soup", "italian Soup"};
                 break;
             default:
                 //
@@ -112,14 +113,21 @@ public class FoodFragment extends Fragment implements FoodSpeciesAdapter.Adapter
 
     public String getUnitName(int foodType) {
         switch (foodType) {
+
             case Constants.REALFOOD:
+
                 return "plates";
+
             case Constants.DRINKS:
+
                 return "bottles";
 
             case Constants.SOUP:
+
                 return "plates";
+
             default:
+                //shit happened .
                 return "";
         }
 

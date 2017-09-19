@@ -151,7 +151,7 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
         PagerAdapter pagerAdapter =
                 new PagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(5);
+        viewPager.setOffscreenPageLimit(10);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
