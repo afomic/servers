@@ -48,7 +48,7 @@ public class WaiterActivity extends AppCompatActivity  implements TableListAdapt
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Table mTable=dataSnapshot.getValue(Table.class);
-                if (mTable.getStatus() != Table.ORDER_TAKEN) {
+                if (mTable.getStatus() == Table.NEW) {
                     mTables.add(mTable);
                     mAdapter.notifyDataSetChanged();
                 }

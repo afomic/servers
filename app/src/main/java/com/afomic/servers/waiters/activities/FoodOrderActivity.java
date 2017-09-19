@@ -53,8 +53,6 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_order);
-
-
         mTable = getIntent().getParcelableExtra(Constants.BUNDLE_TABLE);
         setToolbarAndViewPager();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("events/tables/")
@@ -97,16 +95,17 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             pDialog.dismiss();
+                                            updateTableStatus(Table.ORDER_TAKEN);
                                             Toast.makeText(FoodOrderActivity.this, "Order Successfully placed",
                                                     Toast.LENGTH_SHORT).show();
-
 
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             pDialog.dismiss();
-                                            Toast.makeText(FoodOrderActivity.this, "Something went wrong , Please check your " +
+                                            Toast.makeText(FoodOrderActivity.this, "Something went wrong ," +
+                                                            "Please check your " +
                                                             "internet connection",
                                                     Toast.LENGTH_SHORT).show();
                                         }
@@ -127,8 +126,6 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
                     Toast.makeText(FoodOrderActivity.this, "Pls enable your" +
                             " internet connection", Toast.LENGTH_SHORT).show();
                 }
-
-
 
             }
         });
@@ -171,25 +168,21 @@ public class FoodOrderActivity extends AppCompatActivity implements FoodFragment
     }
 
     //a method to update the status of the table object
-    public void updateTableStatus(boolean isDone) {
-        if (isDone) {
+    public void updateTableStatus(int status) {
             DatabaseReference mRef = FirebaseDatabase.
                     getInstance()
                     .getReference("events/tables/")
                     .child(mTable.getKey());
-            mTable.setStatus(Table.ORDER_TAKEN);
-            mRef.setValue("status", Table.ORDER_TAKEN);
-
-        }
-
+        mTable.setStatus(status);
+        mRef.setValue("status", status);
     }
 
-    class PagerAdapter extends FragmentPagerAdapter {
+    private class PagerAdapter extends FragmentPagerAdapter {
 
         String tabTitles[] = new String[]{"Food", "Soup", "Drinks"};
         Context context;
 
-        public PagerAdapter(FragmentManager fm, Context context) {
+        PagerAdapter(FragmentManager fm, Context context) {
             super(fm);
             this.context = context;
         }
