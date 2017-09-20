@@ -45,8 +45,11 @@ public class KitchenActivity extends AppCompatActivity implements TableListAdapt
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Table mTable=dataSnapshot.getValue(Table.class);
-                mTables.add(mTable);
-                mAdapter.notifyDataSetChanged();
+                if(mTable.getStatus()==Table.ORDER_TAKEN){
+                    mTables.add(mTable);
+                    mAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
